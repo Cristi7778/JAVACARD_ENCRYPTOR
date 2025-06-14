@@ -1,0 +1,258 @@
+// converted by version  [v24.1]
+// on Wed May 28 09:10:26 UTC 2025
+
+.package com/oracle {
+	.aid 0xA0:0x0:0x0:0x0:0x99:0x3:0x1:0xC:0x6;
+	.version 1.0;
+
+	.imports {
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.9;		//javacard/framework
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x2 1.8;		//javacard/security
+		0xA0:0x0:0x0:0x0:0x62:0x2:0x1 1.8;		//javacardx/crypto
+		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
+	}
+
+	.applet {
+		0xA0:0x0:0x0:0x0:0x99:0x3:0x1:0xC:0x6:0x1 EncryptDecryptApplet;
+	}
+
+	.constantPool {
+		// 0
+		instanceFieldRef 1.20 EncryptDecryptApplet/aesKey;
+		// 1
+		instanceFieldRef 2.1 EncryptDecryptApplet/aesCipher;
+		// 2
+		.classRef 1.20;		// javacard/security/AESKey
+		// 3
+		staticMethodRef 0.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 4
+		staticMethodRef 2.1.0(BZ)Ljavacardx/crypto/Cipher;;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+			.descriptor	Ljavacardx/crypto/Cipher;	2.1;
+
+		// 5
+		staticMethodRef 1.13.0(BSZ)Ljavacard/security/Key;;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 6
+		virtualMethodRef 0.3.1()V;		// register()V
+		// 7
+		.classRef EncryptDecryptApplet;
+		// 8
+		staticMethodRef EncryptDecryptApplet/<init>()V;
+		// 9
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 10
+		virtualMethodRef 0.10.1()[B;		// getBuffer()[B
+		// 11
+		staticMethodRef EncryptDecryptApplet/setAESKey(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 12
+		virtualMethodRef 2.1.3(Ljavacard/security/Key;B)V;		// init(Ljavacard/security/Key;B)V
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 13
+		staticMethodRef EncryptDecryptApplet/processAES(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 14
+		staticMethodRef 0.7.1(S)V;		// javacard/framework/ISOException.throwIt(S)V
+		// 15
+		virtualMethodRef 0.10.6()S;		// setIncomingAndReceive()S
+		// 16
+		virtualMethodRef 0.10.7()S;		// setOutgoing()S
+		// 17
+		virtualMethodRef 0.10.9(S)V;		// setOutgoingLength(S)V
+		// 18
+		virtualMethodRef 0.10.4(SS)V;		// sendBytes(SS)V
+		// 19
+		virtualMethodRef 2.1.1([BSS[BS)S;		// doFinal([BSS[BS)S
+	}
+
+	.class public EncryptDecryptApplet 0 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private 1.20 aesKey 0;		// Ljavacard/security/AESKey;
+			private 2.1 aesCipher 1;		// Ljavacardx/crypto/Cipher;
+			private static final byte INS_SET_KEY = 16;		// B
+			private static final byte INS_ENCRYPT = 32;		// B
+			private static final byte INS_DECRYPT = 48;		// B
+		}
+
+		.publicMethodTable 7 8 {
+			equals(Ljava/lang/Object;)Z 0;
+			register()V 1;
+			register([BSB)V 2;
+			selectingApplet()Z 3;
+			deselect()V 4;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable; 5;
+			select()Z 6;
+			process(Ljavacard/framework/APDU;)V 7;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method private <init>()V {
+			.stack 4;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 3;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					bspush 13;
+					sspush 128;
+					sconst_0;
+					invokestatic 5;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					checkcast 0 2;		// T_CLASSORINTERFACE javacard/security/AESKey
+					putfield_a 0;		// reference com/oracle/EncryptDecryptApplet.aesKey
+					aload_0;
+					bspush 14;
+					sconst_0;
+					invokestatic 4;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+					putfield_a 1;		// reference com/oracle/EncryptDecryptApplet.aesCipher
+					aload_0;
+					invokevirtual 6;		// register()V
+					return;
+		}
+
+		.method public static install([BSB)V 0 {
+			.stack 2;
+			.locals 0;
+
+				L0:	new 7;		// com/oracle/EncryptDecryptApplet
+					dup;
+					invokespecial 8;		// com/oracle/EncryptDecryptApplet.<init>()V
+					pop;
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 3;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_0;
+					invokevirtual 9;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_1;
+					invokevirtual 10;		// getBuffer()[B
+					astore_2;
+				L3:	aload_2;
+					sconst_1;
+					baload;
+					slookupswitch L7 3 16 L4 32 L5 48 L6;
+				L4:	aload_0;
+					aload_1;
+					invokespecial 11;		// com/oracle/EncryptDecryptApplet.setAESKey(Ljavacard/framework/APDU;)V
+					goto L8;
+				L5:	getfield_a_this 1;		// reference com/oracle/EncryptDecryptApplet.aesCipher
+					getfield_a_this 0;		// reference com/oracle/EncryptDecryptApplet.aesKey
+					sconst_2;
+					invokevirtual 12;		// init(Ljavacard/security/Key;B)V
+					aload_0;
+					aload_1;
+					invokespecial 13;		// com/oracle/EncryptDecryptApplet.processAES(Ljavacard/framework/APDU;)V
+					goto L8;
+				L6:	getfield_a_this 1;		// reference com/oracle/EncryptDecryptApplet.aesCipher
+					getfield_a_this 0;		// reference com/oracle/EncryptDecryptApplet.aesKey
+					sconst_1;
+					invokevirtual 12;		// init(Ljavacard/security/Key;B)V
+					aload_0;
+					aload_1;
+					invokespecial 13;		// com/oracle/EncryptDecryptApplet.processAES(Ljavacard/framework/APDU;)V
+					goto L8;
+				L7:	sspush 27904;
+					invokestatic 14;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	return;
+		}
+
+		.method private setAESKey(Ljavacard/framework/APDU;)V {
+			.stack 3;
+			.locals 3;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 10;		// getBuffer()[B
+					astore_2;
+				L1:	aload_2;
+					sconst_4;
+					baload;
+					sstore_3;
+				L2:	aload_1;
+					invokevirtual 15;		// setIncomingAndReceive()S
+					sstore 4;
+				L3:	sload_3;
+					bspush 16;
+					if_scmpne L5;
+				L4:	sload 4;
+					bspush 16;
+					if_scmpeq L6;
+				L5:	sspush 26368;
+					invokestatic 14;		// javacard/framework/ISOException.throwIt(S)V
+				L6:	getfield_a_this 0;		// reference com/oracle/EncryptDecryptApplet.aesKey
+					aload_2;
+					sconst_5;
+					invokeinterface 3 2 4;		// javacard/security/AESKey
+					aload_1;
+					invokevirtual 16;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 4;
+					invokevirtual 17;		// setOutgoingLength(S)V
+					aload_1;
+					sconst_5;
+					sload 4;
+					invokevirtual 18;		// sendBytes(SS)V
+					return;
+		}
+
+		.method private processAES(Ljavacard/framework/APDU;)V {
+			.stack 6;
+			.locals 4;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 10;		// getBuffer()[B
+					astore_2;
+				L1:	aload_2;
+					sconst_1;
+					baload;
+					sstore_3;
+				L2:	aload_1;
+					invokevirtual 15;		// setIncomingAndReceive()S
+					sstore 4;
+				L3:	sload 4;
+					bspush 16;
+					srem;
+					ifeq L5;
+				L4:	sspush 26368;
+					invokestatic 14;		// javacard/framework/ISOException.throwIt(S)V
+				L5:	getfield_a_this 1;		// reference com/oracle/EncryptDecryptApplet.aesCipher
+					aload_2;
+					sconst_5;
+					sload 4;
+					aload_2;
+					sconst_0;
+					invokevirtual 19;		// doFinal([BSS[BS)S
+					sstore 5;
+				L6:	aload_1;
+					invokevirtual 16;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 5;
+					invokevirtual 17;		// setOutgoingLength(S)V
+					aload_1;
+					sconst_0;
+					sload 5;
+					invokevirtual 18;		// sendBytes(SS)V
+					return;
+		}
+
+	}
+
+}

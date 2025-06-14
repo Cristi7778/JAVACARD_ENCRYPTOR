@@ -1,0 +1,232 @@
+// converted by version  [v24.1]
+// on Tue May 27 18:57:25 UTC 2025
+
+.package com/aesapplet {
+	.aid 0xA0:0x0:0x0:0x0:0x99:0x3:0x1:0xC:0x6;
+	.version 1.0;
+
+	.imports {
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.9;		//javacard/framework
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x2 1.8;		//javacard/security
+		0xA0:0x0:0x0:0x0:0x62:0x2:0x1 1.8;		//javacardx/crypto
+		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
+	}
+
+	.applet {
+		0xA0:0x0:0x0:0x0:0x99:0x3:0x1:0xC:0x6:0x1 EncryptDecryptApplet;
+	}
+
+	.constantPool {
+		// 0
+		instanceFieldRef 1.20 EncryptDecryptApplet/aesKey;
+		// 1
+		instanceFieldRef 2.1 EncryptDecryptApplet/aesCipher;
+		// 2
+		.classRef 1.20;		// javacard/security/AESKey
+		// 3
+		staticMethodRef 0.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 4
+		staticMethodRef 2.1.0(BZ)Ljavacardx/crypto/Cipher;;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+			.descriptor	Ljavacardx/crypto/Cipher;	2.1;
+
+		// 5
+		staticMethodRef 1.13.0(BSZ)Ljavacard/security/Key;;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 6
+		virtualMethodRef 0.3.1()V;		// register()V
+		// 7
+		.classRef EncryptDecryptApplet;
+		// 8
+		staticMethodRef EncryptDecryptApplet/<init>()V;
+		// 9
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 10
+		virtualMethodRef 0.10.1()[B;		// getBuffer()[B
+		// 11
+		virtualMethodRef 0.10.6()S;		// setIncomingAndReceive()S
+		// 12
+		staticMethodRef EncryptDecryptApplet/setAESKey([BSS)V;
+		// 13
+		staticMethodRef EncryptDecryptApplet/processAES(Ljavacard/framework/APDU;B)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 14
+		staticMethodRef 0.7.1(S)V;		// javacard/framework/ISOException.throwIt(S)V
+		// 15
+		virtualMethodRef 2.1.3(Ljavacard/security/Key;B)V;		// init(Ljavacard/security/Key;B)V
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 16
+		virtualMethodRef 2.1.1([BSS[BS)S;		// doFinal([BSS[BS)S
+		// 17
+		virtualMethodRef 0.10.8(SS)V;		// setOutgoingAndSend(SS)V
+	}
+
+	.class public EncryptDecryptApplet 0 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private 1.20 aesKey 0;		// Ljavacard/security/AESKey;
+			private 2.1 aesCipher 1;		// Ljavacardx/crypto/Cipher;
+			private static final byte INS_SET_KEY = 16;		// B
+			private static final byte INS_ENCRYPT = 32;		// B
+			private static final byte INS_DECRYPT = 48;		// B
+		}
+
+		.publicMethodTable 7 8 {
+			equals(Ljava/lang/Object;)Z 0;
+			register()V 1;
+			register([BSB)V 2;
+			selectingApplet()Z 3;
+			deselect()V 4;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable; 5;
+			select()Z 6;
+			process(Ljavacard/framework/APDU;)V 7;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method private <init>()V {
+			.stack 4;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 3;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					bspush 13;
+					sspush 128;
+					sconst_0;
+					invokestatic 5;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					checkcast 0 2;		// T_CLASSORINTERFACE javacard/security/AESKey
+					putfield_a 0;		// reference com/aesapplet/EncryptDecryptApplet.aesKey
+					aload_0;
+					bspush 14;
+					sconst_0;
+					invokestatic 4;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+					putfield_a 1;		// reference com/aesapplet/EncryptDecryptApplet.aesCipher
+					aload_0;
+					invokevirtual 6;		// register()V
+					return;
+		}
+
+		.method public static install([BSB)V 0 {
+			.stack 2;
+			.locals 0;
+
+				L0:	new 7;		// com/aesapplet/EncryptDecryptApplet
+					dup;
+					invokespecial 8;		// com/aesapplet/EncryptDecryptApplet.<init>()V
+					pop;
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 4;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_0;
+					invokevirtual 9;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_1;
+					invokevirtual 10;		// getBuffer()[B
+					astore_2;
+				L3:	aload_1;
+					invokevirtual 11;		// setIncomingAndReceive()S
+					sstore_3;
+				L4:	aload_2;
+					sconst_1;
+					baload;
+					slookupswitch L8 3 16 L5 32 L6 48 L7;
+				L5:	aload_0;
+					aload_2;
+					sconst_5;
+					sload_3;
+					invokespecial 12;		// com/aesapplet/EncryptDecryptApplet.setAESKey([BSS)V
+					goto L9;
+				L6:	aload_0;
+					aload_1;
+					sconst_2;
+					invokespecial 13;		// com/aesapplet/EncryptDecryptApplet.processAES(Ljavacard/framework/APDU;B)V
+					goto L9;
+				L7:	aload_0;
+					aload_1;
+					sconst_1;
+					invokespecial 13;		// com/aesapplet/EncryptDecryptApplet.processAES(Ljavacard/framework/APDU;B)V
+					goto L9;
+				L8:	sspush 27904;
+					invokestatic 14;		// javacard/framework/ISOException.throwIt(S)V
+				L9:	return;
+		}
+
+		.method private setAESKey([BSS)V {
+			.stack 3;
+			.locals 0;
+
+				L0:	sload_3;
+					bspush 16;
+					if_scmpeq L2;
+				L1:	sspush 26368;
+					invokestatic 14;		// javacard/framework/ISOException.throwIt(S)V
+				L2:	getfield_a_this 0;		// reference com/aesapplet/EncryptDecryptApplet.aesKey
+					aload_1;
+					sload_2;
+					invokeinterface 3 2 4;		// javacard/security/AESKey
+					return;
+		}
+
+		.method private processAES(Ljavacard/framework/APDU;B)V {
+			.stack 6;
+			.locals 4;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 10;		// getBuffer()[B
+					astore_3;
+				L1:	aload_1;
+					invokevirtual 11;		// setIncomingAndReceive()S
+					sstore 4;
+				L2:	sload 4;
+					bspush 16;
+					srem;
+					ifeq L4;
+				L3:	sspush 26368;
+					invokestatic 14;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	getfield_a_this 1;		// reference com/aesapplet/EncryptDecryptApplet.aesCipher
+					getfield_a_this 0;		// reference com/aesapplet/EncryptDecryptApplet.aesKey
+					sload_2;
+					invokevirtual 15;		// init(Ljavacard/security/Key;B)V
+					sconst_5;
+					sstore 5;
+				L5:	sconst_0;
+					sstore 6;
+				L6:	sload 5;
+					sconst_5;
+					sload 4;
+					sadd;
+					if_scmpge L8;
+				L7:	getfield_a_this 1;		// reference com/aesapplet/EncryptDecryptApplet.aesCipher
+					aload_3;
+					sload 5;
+					bspush 16;
+					aload_3;
+					sload 6;
+					invokevirtual 16;		// doFinal([BSS[BS)S
+					pop;
+					sinc 5 16;
+					sinc 6 16;
+					goto L6;
+				L8:	aload_1;
+					sconst_0;
+					sload 6;
+					invokevirtual 17;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+	}
+
+}
